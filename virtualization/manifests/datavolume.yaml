@@ -6,7 +6,7 @@ metadata:
     kubevirt.ui/provider: fedora
     argocd.argoproj.io/sync-wave: "2"
   name: fedora
-  namespace: virt-manage
+  namespace: vm-manage
 spec:
   pvc:
     accessModes:
