@@ -1,0 +1,15 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-specific-namespace
+  namespace: network-policy
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - podSelector: {}
+          namespaceSelector:
+            matchLabels:
+              network: different-namespace
+  policyTypes:
+    - Ingress

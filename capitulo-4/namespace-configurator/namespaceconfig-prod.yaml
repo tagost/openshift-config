@@ -1,0 +1,37 @@
+apiVersion: redhatcop.redhat.io/v1alpha1  
+kind: NamespaceConfig  
+metadata:  
+  name: baseline-env-prod  
+spec:  
+  labelSelector:  
+    matchLabels:  
+      env: prod  
+  templates:  
+    - objectTemplate: |  
+        apiVersion: v1  
+        kind: ResourceQuota  
+        metadata:  
+          name: quota-env-prod  
+          namespace: {{ .Name }}  
+        spec:  
+          hard:  
+            pods: "50"  
+            requests.cpu: "16"  
+            requests.memory: "32Gi"  
+            limits.cpu: "32"  
+            limits.memory: "64Gi"  
+    - objectTemplate: |  
+        apiVersion: networking.k8s.io/v1  
+        kind: NetworkPolicy  
+        metadata:  
+          name: allow-only-openshift-ingress  
+          namespace: {{ .Name }}  
+        spec:  
+          podSelector: {}  
+          policyTypes:  
+            - Ingress  
+          ingress:  
+            - from:  
+                - namespaceSelector:  
+                    matchLabels:  
+                      policy-group.network.openshift.io/ingress: "" 

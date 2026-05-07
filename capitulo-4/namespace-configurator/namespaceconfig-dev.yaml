@@ -1,0 +1,22 @@
+apiVersion: redhatcop.redhat.io/v1alpha1  
+kind: NamespaceConfig 
+metadata:  
+  name: namespaceconfig-dev  
+spec:  
+  labelSelector:  
+    matchLabels:  
+      env: dev  
+  templates:  
+    - objectTemplate: |  
+        apiVersion: v1  
+        kind: ResourceQuota  
+        metadata:  
+          name: quota-env-dev  
+          namespace: {{ .Name }}  
+        spec:  
+          hard:  
+            pods: "20"  
+            requests.cpu: "4"  
+            requests.memory: "8Gi"  
+            limits.cpu: "8"  
+            limits.memory: "16Gi" 
